@@ -11,14 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const programsListDiv = document.getElementById("programsList");
   const searchInput = document.getElementById("searchInput");
 
+  // NUEVO: Referencia al botón de descarga
+  const downloadDataButton = document.getElementById("downloadDataButton");
+
   let programs = JSON.parse(localStorage.getItem("programs")) || [];
   let editingProgramId = null;
 
-  // Función para generar ID único (simple timestamp)
+  // ... (funciones generateId, renderPrograms, savePrograms, resetForm existentes) ...
   const generateId = () =>
     "_" + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
 
-  // Función para renderizar los programas en la lista
   const renderPrograms = (programsToRender = programs) => {
     programsListDiv.innerHTML = "";
     if (programsToRender.length === 0) {
@@ -43,12 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Guardar programas en localStorage
   const savePrograms = () => {
     localStorage.setItem("programs", JSON.stringify(programs));
   };
 
-  // Limpiar formulario
   const resetForm = () => {
     programForm.reset();
     programIdInput.value = "";
@@ -127,7 +127,6 @@ document.addEventListener("DOMContentLoaded", () => {
       savePrograms();
       renderPrograms();
       if (editingProgramId === id) {
-        // Si se elimina el programa que se está editando
         resetForm();
       }
     }
@@ -149,6 +148,53 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     renderPrograms(filteredPrograms);
   });
+
+  // NUEVA FUNCIÓN: Para descargar los datos del localStorage
+  const downloadProgramData = () => {
+    const dataString = localStorage.getItem("programs");
+
+    if (!dataString || dataString === "[]") {
+      alert("No hay programas almacenados para descargar.");
+      return;
+    }
+
+    let fileName = "programas_almacenados.json";
+    let dataToDownload = dataString;
+    let mimeType = "application/json";
+
+    try {
+      // Intenta formatear el JSON para que sea más legible
+      const parsedData = JSON.parse(dataString);
+      dataToDownload = JSON.stringify(parsedData, null, 2); // null y 2 para indentación
+    } catch (error) {
+      console.warn(
+        "No se pudo formatear el JSON, se descargará el texto plano.",
+        error
+      );
+      // Si falla el parseo o formateo (poco probable si los datos son válidos),
+      // descarga el string tal cual como texto plano.
+      fileName = "programas_almacenados.txt";
+      mimeType = "text/plain";
+    }
+
+    const blob = new Blob([dataToDownload], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a); // Necesario para Firefox
+    a.click();
+
+    // Limpieza
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  // NUEVO: Event listener para el botón de descarga
+  if (downloadDataButton) {
+    downloadDataButton.addEventListener("click", downloadProgramData);
+  }
 
   // Renderizar programas al cargar la página
   renderPrograms();

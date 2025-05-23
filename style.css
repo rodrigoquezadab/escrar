@@ -178,3 +178,37 @@ hr {
     width: 100%;
   }
 }
+
+/* ... (tus estilos existentes) ... */
+
+.actions-toolbar {
+  margin-bottom: 15px;
+  text-align: right; /* Alinea el botón a la derecha, puedes cambiarlo a 'left' o 'center' */
+}
+
+.toolbar-button {
+  background-color: #007bff; /* Un color azul, por ejemplo */
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.toolbar-button:hover {
+  background-color: #0056b3; /* Un azul más oscuro al pasar el mouse */
+}
+
+/* Ajustes para responsividad si es necesario */
+@media (max-width: 600px) {
+  .actions-toolbar {
+    text-align: center; /* Centra el botón en pantallas pequeñas */
+    margin-top: 10px;
+  }
+  .toolbar-button {
+    width: 100%;
+    padding: 10px;
+  }
+}
