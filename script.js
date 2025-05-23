@@ -14,8 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Referencia a los botones de descarga y subida
   const downloadDataButton = document.getElementById("downloadDataButton");
   const uploadFileInput = document.getElementById("uploadFileInput");
-  const uploadDataButton = document.getElementById("uploadDataButton");
-  const uploadLabel = document.querySelector(".upload-label");
+  const uploadDataButton = document.getElementById("uploadDataButton"); // El botón amarillo "Cargar Datos"
+
+  // Correctamente, obtener la etiqueta asociada al input de tipo file
+  const uploadFileLabel = document.querySelector(
+    'label[for="uploadFileInput"]'
+  ); // La etiqueta púrpura "⬆️ Cargar Datos (JSON)"
 
   let programs = JSON.parse(localStorage.getItem("programs")) || [];
   let editingProgramId = null;
@@ -70,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
     nameInput.focus();
   };
 
-  // Manejar envío del formulario (Agregar o Actualizar)
   programForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = nameInput.value.trim();
@@ -84,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (editingProgramId) {
-      // Actualizar
       const programIndex = programs.findIndex((p) => p.id === editingProgramId);
       if (programIndex > -1) {
         programs[programIndex] = {
@@ -96,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       }
     } else {
-      // Agregar
       const newProgram = {
         id: generateId(),
         name,
@@ -112,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     resetForm();
   });
 
-  // Función global para editar programa (accesible desde los botones)
   window.editProgram = (id) => {
     const programToEdit = programs.find((p) => p.id === id);
     if (programToEdit) {
@@ -127,11 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
       updateButton.style.display = "inline-block";
       cancelButton.style.display = "inline-block";
       nameInput.focus();
-      window.scrollTo(0, 0); // Scroll al inicio para ver el formulario
+      window.scrollTo(0, 0);
     }
   };
 
-  // Función global para eliminar programa
   window.deleteProgram = (id) => {
     if (confirm("¿Estás seguro de que deseas eliminar este programa?")) {
       programs = programs.filter((p) => p.id !== id);
@@ -143,12 +142,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Cancelar edición
   cancelButton.addEventListener("click", () => {
     resetForm();
   });
 
-  // Búsqueda de programas
   searchInput.addEventListener("input", (e) => {
     const searchTerm = e.target.value.toLowerCase();
     const filteredPrograms = programs.filter(
@@ -160,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPrograms(filteredPrograms);
   });
 
-  // Función para descargar los datos del localStorage
   const downloadProgramData = () => {
     const dataString = localStorage.getItem("programs");
 
@@ -198,12 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
     URL.revokeObjectURL(url);
   };
 
-  // Event listener para el botón de descarga
   if (downloadDataButton) {
     downloadDataButton.addEventListener("click", downloadProgramData);
   }
 
-  // Lógica para la subida de datos
   let fileToUpload = null;
 
   // Cuando se selecciona un archivo en el input de tipo file
@@ -211,16 +205,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const files = e.target.files;
     if (files.length > 0) {
       fileToUpload = files[0];
-      uploadDataButton.style.display = "inline-block";
-      uploadLabel.textContent = `Archivo seleccionado: ${fileToUpload.name}`;
+      uploadDataButton.style.display = "inline-block"; // Hace visible el botón amarillo "Cargar Datos"
+      if (uploadFileLabel) {
+        uploadFileLabel.textContent = `Archivo seleccionado: ${fileToUpload.name}`;
+      }
     } else {
+      // Si el usuario cancela la selección de archivo (cierra la ventana de selección sin elegir nada)
       fileToUpload = null;
-      uploadDataButton.style.display = "none";
-      uploadLabel.textContent = `⬆️ Cargar Datos (JSON)`;
+      uploadDataButton.style.display = "none"; // Oculta el botón amarillo
+      if (uploadFileLabel) {
+        uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`; // Restablece el texto de la etiqueta púrpura
+      }
+      uploadFileInput.value = ""; // Crucial: limpiar el input file para permitir la selección futura del mismo archivo
     }
   });
 
-  // Cuando se hace clic en el botón de confirmar carga
+  // Cuando se hace clic en el botón de confirmar carga (el amarillo)
   uploadDataButton.addEventListener("click", () => {
     if (!fileToUpload) {
       alert("Por favor, selecciona un archivo JSON para cargar.");
@@ -243,37 +243,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (
           Array.isArray(uploadedData) &&
-          uploadedData.every((p) => p.id && p.name && p.version)
+          uploadedData.every((p) => p && p.id && p.name && p.version)
         ) {
           programs = uploadedData;
           savePrograms();
           renderPrograms();
           alert("Datos cargados exitosamente.");
+
+          // Restablecer controles de carga después de una carga exitosa
           fileToUpload = null;
-          uploadDataButton.style.display = "none";
-          uploadLabel.textContent = `⬆️ Cargar Datos (JSON)`;
-          uploadFileInput.value = "";
+          uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
+          if (uploadFileLabel) {
+            uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`; // Restablecer el texto de la etiqueta púrpura
+          }
+          uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file para permitir seleccionar el mismo archivo de nuevo
         } else {
+          // El JSON es válido sintácticamente, pero tiene una estructura de datos incorrecta
           alert(
             "El archivo JSON no parece contener datos de programas válidos. Asegúrate de que sea un respaldo generado por esta aplicación."
           );
+          // Asegurar un restablecimiento consistente
+          fileToUpload = null;
+          uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
+          if (uploadFileLabel) {
+            uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`;
+          }
+          uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file
         }
       } catch (error) {
+        // Error en el parseo del JSON (el archivo no es un JSON válido)
         alert(
           "Error al procesar el archivo JSON. Asegúrate de que sea un archivo JSON válido."
         );
         console.error("Error al leer o parsear el archivo JSON:", error);
+        // Asegurar un restablecimiento consistente
+        fileToUpload = null;
+        uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
+        if (uploadFileLabel) {
+          uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`;
+        }
+        uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file
       }
     };
 
     reader.onerror = (error) => {
       alert("Error al leer el archivo.");
       console.error("Error del FileReader:", error);
+      // Asegurar un restablecimiento consistente
+      fileToUpload = null;
+      uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
+      if (uploadFileLabel) {
+        uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`;
+      }
+      uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file
     };
 
     reader.readAsText(fileToUpload);
   });
 
-  // Renderizar programas al cargar la página
+  // Renderizar programas al cargar la página inicialmente
   renderPrograms();
 });
