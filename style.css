@@ -1,0 +1,180 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="url"],
+textarea {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; /* Asegura que padding no afecte el ancho total */
+}
+
+textarea {
+  resize: vertical;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+#updateButton {
+  background-color: #f0ad4e;
+}
+
+#cancelButton {
+  background-color: #777;
+}
+
+.buttons {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.search-container {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.search-container label {
+  margin-right: 10px;
+  margin-bottom: 0; /* Reset margin for inline display */
+}
+
+#searchInput {
+  flex-grow: 1; /* Ocupa el espacio restante */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+hr {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.program-item {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.program-item h3 {
+  margin-top: 0;
+  color: #337ab7;
+}
+
+.program-item p {
+  margin: 5px 0;
+  word-wrap: break-word; /* Para que las URLs largas no rompan el layout */
+}
+
+.program-item a {
+  color: #337ab7;
+  text-decoration: none;
+}
+
+.program-item a:hover {
+  text-decoration: underline;
+}
+
+.program-item .actions button {
+  background-color: #d9534f;
+  font-size: 14px;
+  padding: 8px 12px;
+  margin-top: 10px;
+}
+
+.program-item .actions .edit-btn {
+  background-color: #5bc0de;
+  margin-right: 5px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  input[type="text"],
+  input[type="url"],
+  textarea {
+    width: 100%; /* Ocupa todo el ancho disponible */
+  }
+
+  .buttons {
+    text-align: center;
+  }
+
+  .buttons button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .buttons button:last-child {
+    margin-bottom: 0;
+  }
+
+  .search-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .search-container label {
+    margin-bottom: 5px;
+  }
+  #searchInput {
+    width: 100%;
+  }
+}

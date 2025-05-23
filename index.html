@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestor de Programas</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestor de Programas de Software 💻</h1>
+
+      <form id="programForm">
+        <input type="hidden" id="programId" />
+        <div>
+          <label for="name">Nombre del Programa:</label>
+          <input type="text" id="name" required />
+        </div>
+        <div>
+          <label for="version">Versión:</label>
+          <input type="text" id="version" required />
+        </div>
+        <div>
+          <label for="usageInfo">Información de Uso:</label>
+          <textarea id="usageInfo" rows="3" required></textarea>
+        </div>
+        <div>
+          <label for="url">URL del Programa:</label>
+          <input
+            type="text"
+            id="url"
+            placeholder="https://ejemplo.com"
+            required
+          />
+        </div>
+        <div class="buttons">
+          <button type="submit" id="addButton">Agregar Programa</button>
+          <button type="button" id="updateButton" style="display: none">
+            Actualizar Programa
+          </button>
+          <button type="button" id="cancelButton" style="display: none">
+            Cancelar Edición
+          </button>
+        </div>
+      </form>
+
+      <hr />
+
+      <h2>Programas Almacenados 📚</h2>
+      <div class="search-container">
+        <label for="searchInput">Buscar Programa:</label>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Escribe para buscar..."
+        />
+      </div>
+      <div id="programsList"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
