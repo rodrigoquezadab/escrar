@@ -62,7 +62,7 @@
             >URL:</label
           >
           <input
-            type="url"
+            type="text"
             id="url"
             required
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
@@ -169,12 +169,6 @@
           </p>
           <div class="space-y-4">
             <button
-              id="importReplaceBtn"
-              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
-            >
-              Reemplazar todo (borrar los datos actuales)
-            </button>
-            <button
               id="importAddBtn"
               class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
             >
@@ -185,6 +179,12 @@
               class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
             >
               Añadir y Actualizar (actualizar por ID si existen)
+            </button>
+            <button
+              id="importReplaceBtn"
+              class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
+            >
+              Reemplazar todo (borrar los datos actuales)
             </button>
             <button
               id="cancelImportBtn"
