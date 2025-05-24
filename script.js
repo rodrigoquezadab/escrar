@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Elementos del formulario y lista
   const programForm = document.getElementById("programForm");
   const programIdInput = document.getElementById("programId");
   const nameInput = document.getElementById("name");
@@ -11,497 +12,364 @@ document.addEventListener("DOMContentLoaded", () => {
   const programsListDiv = document.getElementById("programsList");
   const searchInput = document.getElementById("searchInput");
 
+  // Elementos de acciones generales
   const downloadDataButton = document.getElementById("downloadDataButton");
-  const uploadDataButton = document.getElementById("uploadDataButton"); // Botón amarillo "Cargar: [nombre]"
+  // CAMBIO: Ahora es un botón directo, no un label
+  const uploadFileButton = document.getElementById("uploadFileButton");
   const removeDuplicatesButton = document.getElementById(
     "removeDuplicatesButton"
-  ); // Botón "Eliminar Duplicados"
-  const cancelUploadFlowButton = document.getElementById(
-    "cancelUploadFlowButton"
-  ); // Botón de cancelar flujo
-
-  const uploadFileLabel = document.getElementById("uploadFileLabel"); // Ahora obtenemos por ID
-  const uploadFileInputContainer = document.getElementById(
-    "uploadFileInputContainer"
-  ); // Nuevo contenedor para el input
-
-  // Guardamos los textos originales para restablecerlos
-  const originalUploadLabelText = "⬆️ Cargar Datos (JSON)";
-  const selectNewFileLabelText = "Cambiar Archivo";
-  const originalUploadButtonText = "Confirmar Carga";
-
-  let programs = JSON.parse(localStorage.getItem("programs")) || [];
-  let editingProgramId = null;
-  let fileToUpload = null;
-  let uploadedProgramsData = null; // Para almacenar los datos del JSON cargado temporalmente
-
-  // Referencias del modal
-  const importOptionsModal = document.getElementById("importOptionsModal");
-  const importReplaceBtn = document.getElementById("importReplaceBtn");
-  const importAddBtn = document.getElementById("importAddBtn");
-  const importUpdateBtn = document.getElementById("importUpdateBtn");
+  );
   const cancelImportBtn = document.getElementById("cancelImportBtn");
 
-  const generateId = () =>
-    "_" + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+  const fileUploadInput = document.getElementById("fileUpload");
+  // CAMBIO: uploadFileInputContainer ya no existe en HTML
+  // const uploadFileInputContainer = document.getElementById("uploadFileInputContainer");
 
-  // ... (código existente de script.js hasta la función renderPrograms) ...
+  const importOptionsDiv = document.getElementById("importOptions");
+  const importAddBtn = document.getElementById("importAddBtn");
+  const importUpdateBtn = document.getElementById("importUpdateBtn");
+  const importReplaceBtn = document.getElementById("importReplaceBtn");
+  const loadBackupButton = document.getElementById("loadBackupButton");
 
-  const renderPrograms = (programsToRender = programs) => {
-    programsListDiv.innerHTML = "";
-    if (programsToRender.length === 0) {
-      programsListDiv.innerHTML =
-        "<p class='text-center text-gray-500 italic'>No hay programas almacenados.</p>";
-      removeDuplicatesButton.style.display = "none";
-      return;
+  // Elementos del Modal
+  const programModal = document.getElementById("programModal");
+  const openAddProgramModalBtn = document.getElementById(
+    "openAddProgramModalBtn"
+  );
+  const closeProgramModalBtn = document.getElementById("closeProgramModalBtn");
+
+  // Botón para vaciar la lista
+  const clearAllProgramsButton = document.getElementById(
+    "clearAllProgramsButton"
+  );
+
+  // Elemento para el contador de programas
+  const programCountSpan = document.getElementById("programCount");
+
+  // Array para almacenar los programas
+  let programs = [];
+  let programsToImport = [];
+
+  // --- FUNCIONES DE MODAL ---
+  const openProgramModal = (isEdit = false, programData = null) => {
+    programModal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden"); // Ocultar el scroll del body
+
+    programForm.reset();
+
+    if (isEdit && programData) {
+      programIdInput.value = programData.id;
+      nameInput.value = programData.name;
+      versionInput.value = programData.version;
+      usageInfoInput.value = programData.usageInfo;
+      urlInput.value = programData.url;
+
+      addButton.classList.add("hidden");
+      updateButton.classList.remove("hidden");
+      cancelButton.classList.remove("hidden");
+    } else {
+      programIdInput.value = "";
+      addButton.classList.remove("hidden");
+      updateButton.classList.add("hidden");
+      cancelButton.classList.add("hidden");
     }
-
-    programsToRender.forEach((program) => {
-      const programElement = document.createElement("div");
-      programElement.classList.add(
-        "program-item",
-        "bg-white",
-        "p-4",
-        "rounded-lg",
-        "shadow-sm",
-        "border",
-        "border-gray-200",
-        "flex", // Hacemos que el contenedor sea flex
-        "flex-col", // En pantallas pequeñas será columna
-        "md:flex-row", // En pantallas medianas y grandes será fila
-        "gap-4" // Espacio entre las columnas
-      );
-      programElement.setAttribute("data-id", program.id);
-      programElement.innerHTML = `
-        <div class="flex-grow md:w-3/4"> <h3 class="text-xl font-semibold text-blue-600 mb-2">${program.name} (v${program.version})</h3>
-          <p class="text-gray-700 mb-1"><strong>Información de Uso:</strong> ${program.usageInfo}</p>
-          <p class="text-gray-700 mb-2"><strong>URL:</strong> <a href="${program.url}" target="_blank" class="text-blue-500 hover:underline break-all">${program.url}</a></p>
-        </div>
-        <div class="flex flex-col space-y-2 md:w-1/4 md:justify-center"> <button class="edit-btn bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out" onclick="editProgram('${program.id}')">✏️ Editar</button>
-          <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out" onclick="deleteProgram('${program.id}')">🗑️ Eliminar</button>
-        </div>
-      `;
-      programsListDiv.appendChild(programElement);
-    });
-
-    checkAndShowRemoveDuplicatesButton();
   };
 
-  // ... (resto del código existente de script.js) ...
+  const closeProgramModal = () => {
+    programModal.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden"); // Volver a habilitar el scroll
+    programForm.reset();
+    cancelEdit();
+  };
 
+  // --- FUNCIONES DE ALMACENAMIENTO Y RENDERIZADO ---
   const savePrograms = () => {
     localStorage.setItem("programs", JSON.stringify(programs));
+    checkAndShowRemoveDuplicatesButton();
+    checkAndShowClearAllProgramsButton();
+    updateProgramCount(); // Actualizar contador al guardar
   };
 
-  const resetForm = () => {
-    programForm.reset();
-    programIdInput.value = "";
-    editingProgramId = null;
-    addButton.style.display = "inline-block";
-    updateButton.style.display = "none";
-    cancelButton.style.display = "none";
-    nameInput.focus();
-  };
-
-  programForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = nameInput.value.trim();
-    const version = versionInput.value.trim();
-    const usageInfo = usageInfoInput.value.trim();
-    const url = urlInput.value.trim();
-
-    if (!name || !version || !usageInfo || !url) {
-      alert("Todos los campos son obligatorios.");
-      return;
+  const loadPrograms = () => {
+    const storedPrograms = localStorage.getItem("programs");
+    if (storedPrograms) {
+      programs = JSON.parse(storedPrograms);
     }
-
-    if (editingProgramId) {
-      const programIndex = programs.findIndex((p) => p.id === editingProgramId);
-      if (programIndex > -1) {
-        programs[programIndex] = {
-          id: editingProgramId,
-          name,
-          version,
-          usageInfo,
-          url,
-        };
-      }
-    } else {
-      const newProgram = {
-        id: generateId(),
-        name,
-        version,
-        usageInfo,
-        url,
-      };
-      programs.push(newProgram);
-    }
-
-    savePrograms();
     renderPrograms();
-    resetForm();
-  });
-
-  window.editProgram = (id) => {
-    const programToEdit = programs.find((p) => p.id === id);
-    if (programToEdit) {
-      editingProgramId = id;
-      programIdInput.value = programToEdit.id;
-      nameInput.value = programToEdit.name;
-      versionInput.value = programToEdit.version;
-      usageInfoInput.value = programToEdit.usageInfo;
-      urlInput.value = programToEdit.url;
-
-      addButton.style.display = "none";
-      updateButton.style.display = "inline-block";
-      cancelButton.style.display = "inline-block";
-      nameInput.focus();
-      window.scrollTo(0, 0);
-    }
+    checkAndShowRemoveDuplicatesButton();
+    checkAndShowClearAllProgramsButton();
+    updateProgramCount(); // Actualizar contador al cargar
   };
 
-  window.deleteProgram = (id) => {
-    if (confirm("¿Estás seguro de que deseas eliminar este programa?")) {
-      programs = programs.filter((p) => p.id !== id);
-      savePrograms();
-      renderPrograms();
-      if (editingProgramId === id) {
-        resetForm();
-      }
-    }
-  };
+  const renderPrograms = () => {
+    programsListDiv.innerHTML = "";
+    const searchTerm = searchInput.value.toLowerCase();
 
-  cancelButton.addEventListener("click", () => {
-    resetForm();
-  });
-
-  searchInput.addEventListener("input", (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredPrograms = programs.filter(
-      (program) =>
+    const filteredPrograms = programs.filter((program) => {
+      return (
         program.name.toLowerCase().includes(searchTerm) ||
         program.version.toLowerCase().includes(searchTerm) ||
         program.usageInfo.toLowerCase().includes(searchTerm)
-    );
-    renderPrograms(filteredPrograms);
-  });
-
-  const downloadProgramData = () => {
-    const dataString = localStorage.getItem("programs");
-
-    if (!dataString || dataString === "[]") {
-      alert("No hay programas almacenados para descargar.");
-      return;
-    }
-
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, "0");
-    const day = now.getDate().toString().padStart(2, "0");
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const seconds = now.getSeconds().toString().padStart(2, "0");
-
-    let fileName = `programas_almacenados_${year}-${month}-${day}_${hours}${minutes}${seconds}.json`;
-
-    let dataToDownload = dataString;
-    let mimeType = "application/json";
-
-    try {
-      const parsedData = JSON.parse(dataString);
-      dataToDownload = JSON.stringify(parsedData, null, 2);
-    } catch (error) {
-      console.warn(
-        "No se pudo formatear el JSON, se descargará el texto plano.",
-        error
       );
-      mimeType = "text/plain";
+    });
+
+    if (filteredPrograms.length === 0) {
+      programsListDiv.innerHTML =
+        "<p class='text-center text-gray-500'>No hay programas guardados o no se encontraron resultados.</p>";
     }
 
-    const blob = new Blob([dataToDownload], { type: mimeType });
+    filteredPrograms.forEach((program) => {
+      const programItem = document.createElement("div");
+      programItem.className =
+        "program-item bg-white p-4 rounded-lg shadow-md flex justify-between items-center";
+      programItem.innerHTML = `
+        <div>
+          <h3 class="text-lg font-bold text-gray-800">${
+            program.name
+          } <span class="text-gray-500 text-sm">(${program.version})</span></h3>
+          <p class="text-gray-600 text-sm mt-1">${program.usageInfo}</p>
+          ${
+            program.url
+              ? `<a href="${program.url}" target="_blank" class="text-blue-500 hover:underline text-sm mt-1 block">Ir al sitio web</a>`
+              : ""
+          }
+        </div>
+        <div class="flex space-x-2 mt-2 md:mt-0">
+          <button data-id="${
+            program.id
+          }" class="edit-btn bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-3 rounded text-xs transition duration-200 ease-in-out">Editar</button>
+          <button data-id="${
+            program.id
+          }" class="delete-btn bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded text-xs transition duration-200 ease-in-out">Eliminar</button>
+        </div>
+      `;
+      programsListDiv.appendChild(programItem);
+    });
+
+    document.querySelectorAll(".edit-btn").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const idToEdit = e.target.dataset.id;
+        const programToEdit = programs.find(
+          (program) => program.id === idToEdit
+        );
+        if (programToEdit) {
+          openProgramModal(true, programToEdit);
+        }
+      });
+    });
+    document.querySelectorAll(".delete-btn").forEach((button) => {
+      button.addEventListener("click", deleteProgram);
+    });
+
+    checkAndShowClearAllProgramsButton();
+  };
+
+  // --- CRUD DE PROGRAMAS ---
+  const generateId = () => {
+    return "_" + Math.random().toString(36).substr(2, 9);
+  };
+
+  const addProgram = (e) => {
+    e.preventDefault();
+    const newProgram = {
+      id: generateId(),
+      name: nameInput.value,
+      version: versionInput.value,
+      usageInfo: usageInfoInput.value,
+      url: urlInput.value,
+    };
+    programs.push(newProgram);
+    savePrograms();
+    renderPrograms();
+    closeProgramModal();
+  };
+
+  const updateProgram = () => {
+    const idToUpdate = programIdInput.value;
+    const programIndex = programs.findIndex(
+      (program) => program.id === idToUpdate
+    );
+
+    if (programIndex > -1) {
+      programs[programIndex] = {
+        id: idToUpdate,
+        name: nameInput.value,
+        version: versionInput.value,
+        usageInfo: usageInfoInput.value,
+        url: urlInput.value,
+      };
+      savePrograms();
+      renderPrograms();
+      closeProgramModal();
+    }
+  };
+
+  const deleteProgram = (e) => {
+    if (confirm("¿Estás seguro de que quieres eliminar este programa?")) {
+      const idToDelete = e.target.dataset.id;
+      programs = programs.filter((program) => program.id !== idToDelete);
+      savePrograms();
+      renderPrograms();
+    }
+  };
+
+  const cancelEdit = () => {
+    programForm.reset();
+    programIdInput.value = "";
+    addButton.classList.remove("hidden");
+    updateButton.classList.add("hidden");
+    cancelButton.classList.add("hidden");
+  };
+
+  // --- FUNCIONES DE BÚSQUEDA ---
+  searchInput.addEventListener("keyup", renderPrograms);
+
+  // --- FUNCIONES DE EXPORTACIÓN/IMPORTACIÓN ---
+  const downloadData = () => {
+    const dataStr = JSON.stringify(programs, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-
     a.href = url;
-    a.download = fileName;
+    a.download = "programas.json";
     document.body.appendChild(a);
     a.click();
-
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
-  if (downloadDataButton) {
-    downloadDataButton.addEventListener("click", downloadProgramData);
-  }
-
-  // --- Funciones para manejar el input de archivo dinámicamente y las importaciones ---
-
-  // Obtiene la referencia actual al input de archivo (ya que puede ser recreado)
-  const getCurrentFileInput = () => document.getElementById("uploadFileInput");
-
-  // Adjunta el event listener 'change' al input de archivo actual
-  const attachFileInputListener = () => {
-    const currentFileInput = getCurrentFileInput();
-    if (!currentFileInput) {
-      console.error(
-        "No se encontró el input de archivo. Fallo al adjuntar listener."
-      );
-      return;
-    }
-
-    // Asegurarse de que no haya múltiples listeners adjuntos
-    currentFileInput.removeEventListener("change", handleFileInputChange);
-    currentFileInput.addEventListener("change", handleFileInputChange);
-    console.log("Listener 'change' adjuntado al input de archivo.");
-  };
-
-  const handleFileInputChange = (e) => {
-    console.log("--> EVENTO 'CHANGE' DEL INPUT DE ARCHIVO DETECTADO. (Paso 1)");
-    const files = e.target.files;
-    if (files.length > 0) {
-      fileToUpload = files[0];
-      uploadDataButton.style.display = "inline-block";
-      uploadDataButton.textContent = `Cargar: ${fileToUpload.name}`;
-
-      // Mostrar el botón de cancelar carga
-      cancelUploadFlowButton.style.display = "inline-block";
-
-      if (uploadFileLabel) {
-        uploadFileLabel.textContent = selectNewFileLabelText; // Cambiar texto del botón púrpura a "Cambiar Archivo"
-      }
-      console.log("Archivo seleccionado:", fileToUpload.name);
-      console.log(
-        "Botón 'Confirmar Carga' (amarillo) y 'Cancelar Carga' (gris) deberían ser visibles ahora."
-      );
-    } else {
-      // Si el usuario cancela la selección de archivo (cierra la ventana de selección sin elegir nada)
-      console.log(
-        "Selección de archivo cancelada o ningún archivo seleccionado."
-      );
-      // No llamar a resetUploadControls() aquí directamente, ya que un "cancel" del diálogo no es un reset completo del flujo
-      // El reset se hace al llamar a la función cancelar carga o al importar.
-      // Para este caso, solo asegurar que el input.value se limpia si no se selecciona nada.
-      const currentFileInput = getCurrentFileInput();
-      if (currentFileInput) {
-        currentFileInput.value = ""; // Limpiar el valor para permitir seleccionar el mismo archivo después
-      }
-    }
-  };
-
-  const resetUploadControls = () => {
-    fileToUpload = null;
-    uploadedProgramsData = null; // Limpiar los datos cargados del archivo
-    uploadDataButton.style.display = "none";
-    uploadDataButton.textContent = originalUploadButtonText;
-    cancelUploadFlowButton.style.display = "none"; // Ocultar al resetear
-    if (uploadFileLabel) {
-      uploadFileLabel.textContent = originalUploadLabelText; // Volver al texto original del botón púrpura
-    }
-    recreateFileInput(); // ¡CRUCIAL! Recrear el input para un estado limpio
-    console.log(
-      "Controles de carga reseteados. Input de archivo listo para nueva selección."
-    );
-  };
-
-  // Recrea el input de tipo file para asegurar que el evento 'change' se dispare siempre
-  const recreateFileInput = () => {
-    const oldFileInput = getCurrentFileInput();
-    if (oldFileInput) {
-      oldFileInput.removeEventListener("change", handleFileInputChange); // Remover listener del viejo
-      oldFileInput.remove(); // Eliminar el input viejo
-      console.log("Input de archivo anterior eliminado.");
-    }
-
-    const newFileInput = document.createElement("input");
-    newFileInput.type = "file";
-    newFileInput.id = "uploadFileInput"; // Mismo ID para que el label 'for' funcione
-    newFileInput.accept = ".json";
-    newFileInput.classList.add("hidden"); // Asegurarse de que esté oculto
-
-    // Adjuntar el nuevo input al contenedor dedicado
-    uploadFileInputContainer.appendChild(newFileInput);
-    // Y luego adjuntar el listener al nuevo input
-    attachFileInputListener();
-    console.log("Nuevo input de archivo recreado y listener adjuntado.");
-  };
-
-  // --- Lógica de importación ---
-
-  const processUploadedData = (data, importType) => {
-    let currentPrograms = programs;
-    let updatedCount = 0;
-    let addedCount = 0;
-
-    if (importType === "replace") {
-      currentPrograms = data;
-    } else {
-      const existingIds = new Set(currentPrograms.map((p) => p.id));
-
-      data.forEach((uploadedProgram) => {
-        if (!uploadedProgram || !uploadedProgram.id) {
-          console.warn(
-            "Programa inválido en el archivo cargado, ignorando:",
-            uploadedProgram
-          );
-          return;
-        }
-
-        if (existingIds.has(uploadedProgram.id)) {
-          if (importType === "update") {
-            const index = currentPrograms.findIndex(
-              (p) => p.id === uploadedProgram.id
-            );
-            if (index !== -1) {
-              currentPrograms[index] = uploadedProgram;
-              updatedCount++;
-            }
-          }
-        } else {
-          currentPrograms.push(uploadedProgram);
-          addedCount++;
-        }
-      });
-    }
-
-    programs = currentPrograms;
-    savePrograms();
-    renderPrograms();
-
-    let message = "Datos cargados exitosamente.";
-    if (importType === "replace") {
-      message += ` Se reemplazaron ${data.length} programas.`;
-    } else if (importType === "add") {
-      message += ` Se añadieron ${addedCount} nuevos programas.`;
-    } else if (importType === "update") {
-      message += ` Se añadieron ${addedCount} nuevos programas y se actualizaron ${updatedCount} existentes.`;
-    }
-    alert(message);
-    console.log("Carga de datos exitosa. Restableciendo UI.");
-  };
-
-  // Evento para mostrar el modal de opciones de importación (al hacer clic en el botón amarillo)
-  uploadDataButton.addEventListener("click", () => {
-    console.log("--> BOTÓN 'CARGAR DATOS' (AMARILLO) CLICKEADO. (Paso 2)");
-    if (!fileToUpload) {
-      alert("Por favor, selecciona un archivo JSON para cargar.");
-      console.log("No hay archivo en 'fileToUpload', deteniendo la carga.");
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) {
       return;
     }
 
     const reader = new FileReader();
-
-    reader.onload = (event) => {
-      console.log("--> ARCHIVO LEÍDO POR FILEREADER. (Paso 3)");
+    reader.onload = (e) => {
       try {
-        const parsedData = JSON.parse(event.target.result);
-        console.log("Datos parseados del JSON:", parsedData);
-
-        if (
-          Array.isArray(parsedData) &&
-          parsedData.every((p) => p && p.id && p.name && p.version)
-        ) {
-          uploadedProgramsData = parsedData;
-          importOptionsModal.classList.remove("hidden"); // Mostrar el modal
+        programsToImport = JSON.parse(e.target.result);
+        if (Array.isArray(programsToImport)) {
+          showImportOptions();
         } else {
-          alert(
-            "El archivo JSON no parece contener datos de programas válidos. Asegúrate de que sea un respaldo generado por esta aplicación."
-          );
-          console.log(
-            "Carga fallida: El JSON no tiene la estructura de datos esperada."
-          );
-          resetUploadControls(); // Asegurarse de que se resetee y se recree el input
+          alert("El archivo JSON no contiene un array de programas válido.");
+          resetUploadFlow();
         }
       } catch (error) {
-        alert(
-          "Error al procesar el archivo JSON. Asegúrate de que sea un archivo JSON válido."
-        );
-        console.error("--> ERROR AL LEER O PARSEAR EL ARCHIVO JSON:", error);
-        resetUploadControls(); // Asegurarse de que se resetee y se recree el input
+        alert("Error al leer el archivo JSON: " + error.message);
+        resetUploadFlow();
       }
     };
+    reader.readAsText(file);
+  };
 
-    reader.onerror = (error) => {
-      alert("Error al leer el archivo.");
-      console.error(
-        "--> ERROR DEL FILEREADER (No se pudo leer el archivo):",
-        error
-      );
-      resetUploadControls(); // Asegurarse de que se resetee y se recree el input
-    };
-
-    reader.readAsText(fileToUpload);
-    console.log("FileReader iniciado para leer el archivo.");
-  });
-
-  // Eventos de los botones del modal
-  importReplaceBtn.addEventListener("click", () => {
-    if (uploadedProgramsData) {
-      if (
-        confirm(
-          "Esta opción borrará todos los programas actuales y los reemplazará. ¿Estás seguro?"
-        )
-      ) {
-        processUploadedData(uploadedProgramsData, "replace");
-        importOptionsModal.classList.add("hidden");
-        resetUploadControls();
-      }
+  const loadBackupData = async () => {
+    if (
+      !confirm(
+        "¿Estás seguro de que quieres cargar los datos de respaldo? Esto abrirá las opciones de importación."
+      )
+    ) {
+      return;
     }
-  });
-
-  importAddBtn.addEventListener("click", () => {
-    if (uploadedProgramsData) {
-      if (
-        confirm(
-          "Esta opción añadirá los programas nuevos, ignorando los que ya existen por ID. ¿Deseas continuar?"
-        )
-      ) {
-        processUploadedData(uploadedProgramsData, "add");
-        importOptionsModal.classList.add("hidden");
-        resetUploadControls();
+    try {
+      const response = await fetch("programas_bkup.json");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    }
-  });
-
-  importUpdateBtn.addEventListener("click", () => {
-    if (uploadedProgramsData) {
-      if (
-        confirm(
-          "Esta opción añadirá programas nuevos y actualizará los existentes por ID. ¿Deseas continuar?"
-        )
-      ) {
-        processUploadedData(uploadedProgramsData, "update");
-        importOptionsModal.classList.add("hidden");
-        resetUploadControls();
+      programsToImport = await response.json();
+      if (Array.isArray(programsToImport)) {
+        showImportOptions();
+      } else {
+        alert("El archivo programas_bkup.json no contiene un array válido.");
+        resetUploadFlow();
       }
+    } catch (error) {
+      alert("Error al cargar programas_bkup.json: " + error.message);
+      resetUploadFlow();
     }
-  });
+  };
 
-  // Listener para el botón "Cancelar" dentro del modal
-  cancelImportBtn.addEventListener("click", () => {
-    importOptionsModal.classList.add("hidden");
-    resetUploadControls(); // Resetea todo el estado de carga y recrea el input
-  });
+  const showImportOptions = () => {
+    importOptionsDiv.classList.remove("hidden");
+    // CAMBIO: Ocultamos el botón de carga de archivo ahora
+    uploadFileButton.classList.add("hidden");
+    // uploadFileInputContainer ya no existe
+    downloadDataButton.classList.add("hidden");
+    loadBackupButton.classList.add("hidden");
+  };
 
-  // Listener para el botón de cancelar flujo de carga (fuera del modal)
-  cancelUploadFlowButton.addEventListener("click", () => {
-    console.log("Flujo de carga de archivo cancelado por el usuario.");
-    resetUploadControls(); // Resetea todo el estado de carga y recrea el input
-  });
+  const resetUploadFlow = () => {
+    importOptionsDiv.classList.add("hidden");
+    programsToImport = [];
+    // CAMBIO: Mostramos el botón de carga de archivo
+    uploadFileButton.classList.remove("hidden");
+    // uploadFileInputContainer ya no existe
+    fileUploadInput.value = "";
+    downloadDataButton.classList.remove("hidden");
+    loadBackupButton.classList.remove("hidden");
+    checkAndShowRemoveDuplicatesButton();
+    checkAndShowClearAllProgramsButton();
+    updateProgramCount(); // Actualizar contador al resetear el flujo
+  };
 
-  // --- Lógica para eliminar duplicados ---
+  const importData = (type) => {
+    if (programsToImport.length === 0) {
+      alert("No hay datos para importar.");
+      resetUploadFlow();
+      return;
+    }
 
+    if (
+      !confirm(
+        `¿Estás seguro de que quieres realizar esta operación de importación (${type})?`
+      )
+    ) {
+      return;
+    }
+
+    switch (type) {
+      case "add":
+        programsToImport.forEach((newProgram) => {
+          if (!programs.some((existing) => existing.id === newProgram.id)) {
+            programs.push(newProgram);
+          }
+        });
+        break;
+      case "update":
+        programsToImport.forEach((newProgram) => {
+          const existingIndex = programs.findIndex(
+            (existing) => existing.id === newProgram.id
+          );
+          if (existingIndex > -1) {
+            programs[existingIndex] = newProgram;
+          } else {
+            programs.push(newProgram);
+          }
+        });
+        break;
+      case "replace":
+        programs = programsToImport;
+        break;
+      default:
+        console.warn("Tipo de importación desconocido:", type);
+        break;
+    }
+
+    savePrograms();
+    renderPrograms();
+    alert(`Importación '${type}' completada exitosamente.`);
+    resetUploadFlow();
+  };
+
+  // --- FUNCIONES DE MANEJO DE DUPLICADOS ---
   const findDuplicatesById = () => {
     const seenIds = new Set();
-    let hasDuplicates = false;
-    programs.forEach((program) => {
+    for (const program of programs) {
       if (seenIds.has(program.id)) {
-        hasDuplicates = true;
-      } else {
-        seenIds.add(program.id);
+        return true;
       }
-    });
-    return hasDuplicates;
+      seenIds.add(program.id);
+    }
+    return false;
   };
 
   const removeActualDuplicates = () => {
@@ -529,10 +397,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  if (removeDuplicatesButton) {
-    removeDuplicatesButton.addEventListener("click", removeActualDuplicates);
-  }
-
   const checkAndShowRemoveDuplicatesButton = () => {
     if (programs.length >= 2 && findDuplicatesById()) {
       removeDuplicatesButton.style.display = "inline-block";
@@ -541,13 +405,74 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // --- INICIALIZACIÓN ---
-  // Al inicio, aseguramos que el botón amarillo y el de cancelar estén ocultos.
-  // Y lo más importante, se crea el input de archivo inicial y se adjunta su listener.
-  uploadDataButton.style.display = "none";
-  uploadDataButton.textContent = originalUploadButtonText;
-  cancelUploadFlowButton.style.display = "none";
-  recreateFileInput(); // Llama a esta función al inicio para establecer el input inicial
+  // Función para vaciar todos los programas
+  const clearAllPrograms = () => {
+    if (
+      confirm(
+        "¿Estás seguro de que quieres eliminar TODOS los programas de la lista? Esta acción es irreversible."
+      )
+    ) {
+      programs = []; // Vaciar el array de programas
+      savePrograms(); // Guardar el estado vacío
+      renderPrograms(); // Volver a renderizar la lista (ahora vacía)
+      alert("Todos los programas han sido eliminados.");
+    }
+  };
 
-  renderPrograms(); // Renderizar programas al inicio
+  // Función para controlar la visibilidad del botón "Vaciar Lista"
+  const checkAndShowClearAllProgramsButton = () => {
+    if (programs.length > 0) {
+      clearAllProgramsButton.style.display = "inline-block";
+    } else {
+      clearAllProgramsButton.style.display = "none";
+    }
+  };
+
+  // Función para actualizar el contador de programas
+  const updateProgramCount = () => {
+    programCountSpan.textContent = programs.length;
+  };
+
+  // --- EVENT LISTENERS ---
+  openAddProgramModalBtn.addEventListener("click", () =>
+    openProgramModal(false)
+  );
+  closeProgramModalBtn.addEventListener("click", closeProgramModal);
+
+  programModal.addEventListener("click", (e) => {
+    if (e.target === programModal) {
+      closeProgramModal();
+    }
+  });
+
+  programForm.addEventListener("submit", addProgram);
+  updateButton.addEventListener("click", updateProgram);
+  cancelButton.addEventListener("click", closeProgramModal);
+
+  downloadDataButton.addEventListener("click", downloadData);
+
+  // CAMBIO: Listener para el nuevo botón de carga de archivo
+  uploadFileButton.addEventListener("click", () => {
+    fileUploadInput.click(); // Simula un clic en el input de tipo file oculto
+  });
+  // El listener para el 'change' del input de archivo sigue siendo el mismo
+  fileUploadInput.addEventListener("change", handleFileUpload);
+
+  loadBackupButton.addEventListener("click", loadBackupData);
+
+  importAddBtn.addEventListener("click", () => importData("add"));
+  importUpdateBtn.addEventListener("click", () => importData("update"));
+  importReplaceBtn.addEventListener("click", () => importData("replace"));
+  cancelImportBtn.addEventListener("click", resetUploadFlow);
+
+  if (removeDuplicatesButton) {
+    removeDuplicatesButton.addEventListener("click", removeActualDuplicates);
+  }
+
+  if (clearAllProgramsButton) {
+    clearAllProgramsButton.addEventListener("click", clearAllPrograms);
+  }
+
+  // --- INICIALIZACIÓN ---
+  loadPrograms();
 });

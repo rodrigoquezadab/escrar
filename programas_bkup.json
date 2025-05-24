@@ -1,0 +1,422 @@
+[
+  {
+    "id": "_q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2",
+    "name": "WinBox",
+    "version": "3.40",
+    "usageInfo": "Utilidad de configuración de MikroTik RouterOS que permite gestionar dispositivos MikroTik RouterBOARD y RouterOS a través de una interfaz gráfica de usuario. Esencial para la administración de redes con equipamiento MikroTik.",
+    "url": "https://mikrotik.com/download"
+  },
+  {
+    "id": "_p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1",
+    "name": "TeraCopy",
+    "version": "3.17",
+    "usageInfo": "Utilidad de copia y movimiento de archivos diseñada para ser más rápida y confiable que el sistema de copia predeterminado de Windows. Ofrece verificación de archivos, manejo de errores y pausa/reanudación de transferencias.",
+    "url": "https://www.codesector.com/teracopy"
+  },
+  {
+    "id": "_c8f3a1b2d7e9f4a5b6c7d8e9f0a1b2c3",
+    "name": "GIMP",
+    "version": "2.10.36",
+    "usageInfo": "Editor de imágenes de código abierto para retoque fotográfico, composición y creación de imágenes. Es una alternativa gratuita a Photoshop.",
+    "url": "https://www.gimp.org/"
+  },
+  {
+    "id": "_d9e4b2c3a8f0e1d2c3b4a5d6e7f8a9b0",
+    "name": "7-Zip",
+    "version": "24.05",
+    "usageInfo": "Compresor y descompresor de archivos de código abierto con alta relación de compresión. Soporta formatos 7z, XZ, BZIP2, GZIP, TAR, ZIP y WIM, entre otros.",
+    "url": "https://www.7-zip.org/"
+  },
+  {
+    "id": "_e0f5c3d4b9a1f2e3d4c5b6a7d8e9f0a1",
+    "name": "WinRAR",
+    "version": "6.24",
+    "usageInfo": "Potente herramienta de archivado que soporta archivos RAR y ZIP y puede descomprimir archivos CAB, ARJ, LZH, TAR, GZ, ACE, UUE, BZ2, JAR, ISO, Z y 7Z.",
+    "url": "https://www.winrar.es/"
+  },
+  {
+    "id": "_f1a6d4e5c0b2g3f4e5d6c7b8a9f0e1d2",
+    "name": "PhotoRec",
+    "version": "7.2",
+    "usageInfo": "Software de recuperación de datos de archivos de código abierto diseñado para recuperar archivos perdidos, incluyendo vídeo, documentos y archivos desde discos duros, CD-ROMs, DVDs, y tarjetas de memoria de cámaras digitales.",
+    "url": "https://www.cgsecurity.org/wiki/PhotoRec_ES"
+  },
+  {
+    "id": "_g2b7e5f6d1c3h4g5f6e7d8c9b0g1f2e3",
+    "name": "Action! Mirillis",
+    "version": "4.30.2",
+    "usageInfo": "Software de grabación de pantalla y juegos en tiempo real para Windows. Permite grabar vídeos de alta calidad, capturar capturas de pantalla y transmitir en vivo.",
+    "url": "https://mirillis.com/products/action.html"
+  },
+  {
+    "id": "_h3c8f6g7e2d4i5h6g7f8e9d0h1g2f3e4",
+    "name": "VLC Media Player",
+    "version": "3.0.21",
+    "usageInfo": "Reproductor multimedia gratuito y de código abierto que reproduce la mayoría de los archivos multimedia, así como DVD, CD de audio, VCD y varios protocolos de transmisión.",
+    "url": "https://www.videolan.org/vlc/"
+  },
+  {
+    "id": "_i4d9g7h8f3e5j6i7h8g9f0i1h2g3f4e5",
+    "name": "Mozilla Firefox",
+    "version": "126.0",
+    "usageInfo": "Navegador web de código abierto conocido por su privacidad, velocidad y personalización.",
+    "url": "https://www.mozilla.org/firefox/"
+  },
+  {
+    "id": "_j5e0h8i9g4f6k7j8i9h0j1i2h3g4f5e6",
+    "name": "Audacity",
+    "version": "3.5.1",
+    "usageInfo": "Editor y grabador de audio de código abierto y gratuito. Permite editar, mezclar, aplicar efectos y convertir archivos de audio.",
+    "url": "https://www.audacityteam.org/"
+  },
+  {
+    "id": "_k6f1i9j0h5g7l8k9j0i1k2j3i4h5g6f7",
+    "name": "LibreOffice",
+    "version": "24.2.3",
+    "usageInfo": "Suite ofimática de código abierto que incluye procesador de texto, hoja de cálculo, presentaciones, base de datos y más. Es una alternativa gratuita a Microsoft Office.",
+    "url": "https://www.libreoffice.org/"
+  },
+  {
+    "id": "_l7g2j0k1h6i8m9l0k1j2l3m4j5h6g7f8",
+    "name": "Notepad++",
+    "version": "8.5.3",
+    "usageInfo": "Editor de texto y código fuente gratuito y de código abierto para Windows. Soporta varios lenguajes de programación y es altamente personalizable.",
+    "url": "https://notepad-plus-plus.org/"
+  },
+  {
+    "id": "_m8h3k0l1j6i9n0m1k2l3m4n5j6h7g8f9",
+    "name": "OBS Studio",
+    "version": "30.0.1",
+    "usageInfo": "Software de grabación y transmisión en vivo de código abierto y gratuito. Permite capturar, mezclar y transmitir vídeo y audio en tiempo real.",
+    "url": "https://obsproject.com/"
+  },
+  {
+    "id": "_n9i4l0m1j6k8o9n0l1m2n3o4j5h6g7f8",
+    "name": "FileZilla",
+    "version": "3.70.0",
+    "usageInfo": "Cliente FTP de código abierto y gratuito que permite transferir archivos entre un ordenador local y un servidor remoto.",
+    "url": "https://filezilla-project.org/"
+  },
+  {
+    "id": "_o0j5m1n2k7l9p0o1m2n3o4p5j6h7g8f9",
+    "name": "PuTTY",
+    "version": "0.79",
+    "usageInfo": "Cliente SSH y telnet de código abierto para Windows. Permite conectarse a servidores remotos de forma segura.",
+    "url": "https://www.putty.org/"
+  },
+  {
+    "id": "_e1f2g3h4i5j6k7l8m9n0o1p2q3r4s5t6",
+    "name": "Visual Studio Code",
+    "version": "1.89.1",
+    "usageInfo": "Editor de código fuente ligero pero potente desarrollado por Microsoft. Soporta depuración, control de versiones Git, resaltado de sintaxis, finalización inteligente de código, fragmentos y refactorización de código.",
+    "url": "https://code.visualstudio.com/"
+  },
+  {
+    "id": "_u7v8w9x0y1z2a3b4c5d6e7f8g9h0i1j2",
+    "name": "Google Chrome",
+    "version": "125.0.6422.112",
+    "usageInfo": "Navegador web rápido, seguro y fácil de usar desarrollado por Google. Es el navegador más popular del mundo.",
+    "url": "https://www.google.com/chrome/"
+  },
+  {
+    "id": "_k3l4m5n6o7p8q9r0s1t2u3v4w5x6y7z8",
+    "name": "Spotify",
+    "version": "1.2.40.1062",
+    "usageInfo": "Servicio de streaming de música que ofrece acceso a millones de canciones, podcasts y audiolibros. Disponible en múltiples plataformas.",
+    "url": "https://www.spotify.com/"
+  },
+  {
+    "id": "_a9b0c1d2e3f4g5h6i7j8k9l0m1n2o3p4",
+    "name": "Zoom",
+    "version": "5.17.11",
+    "usageInfo": "Plataforma de videoconferencias para reuniones en línea, seminarios web y chat. Muy utilizada para trabajo remoto y educación.",
+    "url": "https://zoom.us/"
+  },
+  {
+    "id": "_q5r6s7t8u9v0w1x2y3z4a5b6c7d8e9f0",
+    "name": "Adobe Acrobat Reader",
+    "version": "2024.002.20736",
+    "usageInfo": "Software estándar gratuito para ver, imprimir, firmar y anotar documentos PDF. Esencial para manejar archivos PDF.",
+    "url": "https://get.adobe.com/reader/"
+  },
+  {
+    "id": "_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+    "name": "HWiNFO",
+    "version": "7.70",
+    "usageInfo": "Herramienta de información y monitoreo integral de hardware que proporciona detalles en tiempo real sobre CPU, GPU, RAM, temperaturas, voltajes y sensores de la placa base.",
+    "url": "https://www.hwinfo.com/"
+  },
+  {
+    "id": "_b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7",
+    "name": "CrystalDiskInfo",
+    "version": "9.2.2",
+    "usageInfo": "Utilidad para monitorear la salud y el estado SMART (Self-Monitoring, Analysis and Reporting Technology) de discos duros y SSD, mostrando información detallada como la temperatura y el número de horas de funcionamiento.",
+    "url": "https://crystalmark.info/en/software/crystaldiskinfo/"
+  },
+  {
+    "id": "_c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8",
+    "name": "Malwarebytes Free",
+    "version": "4.2.0",
+    "usageInfo": "Herramienta anti-malware que detecta y elimina amenazas como malware, spyware, ransomware y adware. Ofrece protección en tiempo real en su versión premium y escaneos bajo demanda en la versión gratuita.",
+    "url": "https://www.malwarebytes.com/"
+  },
+  {
+    "id": "_d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9",
+    "name": "Revo Uninstaller Free",
+    "version": "2.4.5",
+    "usageInfo": "Desinstalador de programas que elimina completamente las aplicaciones y sus archivos residuales, entradas de registro y otros rastros, garantizando una limpieza profunda del sistema.",
+    "url": "https://www.revouninstaller.com/products/revo-uninstaller-free/"
+  },
+  {
+    "id": "_e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+    "name": "Double Driver",
+    "version": "4.1.0",
+    "usageInfo": "Utilidad para hacer copias de seguridad, restaurar y guardar información de los controladores de Windows. Permite exportar los controladores a una carpeta, un archivo ZIP o un archivo ejecutable autoextraíble.",
+    "url": "https://www.boozet.org/doubledriver/"
+  },
+  {
+    "id": "_f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1",
+    "name": "CCleaner Free",
+    "version": "6.24.11060",
+    "usageInfo": "Herramienta de optimización y limpieza del sistema que elimina archivos temporales, caché del navegador, historial, cookies y entradas de registro no válidas para mejorar el rendimiento y liberar espacio en disco.",
+    "url": "https://www.ccleaner.com/ccleaner/download/standard"
+  },
+  {
+    "id": "_g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2",
+    "name": "TeamViewer",
+    "version": "15.54.4",
+    "usageInfo": "Software de acceso remoto y control de escritorio que permite a los técnicos conectarse a ordenadores de clientes de forma segura para dar soporte técnico y realizar tareas de mantenimiento.",
+    "url": "https://www.teamviewer.com/es/download/windows/"
+  },
+  {
+    "id": "_h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3",
+    "name": "Rufus",
+    "version": "4.5",
+    "usageInfo": "Utilidad que ayuda a formatear y crear unidades USB de arranque, como pendrives o tarjetas de memoria, para instalar sistemas operativos o ejecutar herramientas de rescate.",
+    "url": "https://rufus.ie/es/"
+  },
+  {
+    "id": "_i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4",
+    "name": "Ophcrack",
+    "version": "3.8.0",
+    "usageInfo": "Herramienta de recuperación de contraseñas de Windows basada en tablas arcoíris. Permite recuperar contraseñas de cuentas de usuario de Windows, incluso si no se conoce la contraseña actual.",
+    "url": "https://ophcrack.sourceforge.io/"
+  },
+  {
+    "id": "_j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5",
+    "name": "Bitwarden",
+    "version": "2024.5.0",
+    "usageInfo": "Gestor de contraseñas de código abierto y multiplataforma que almacena de forma segura credenciales, notas seguras, tarjetas de crédito e identidades, y permite generarlas y autocompletarlas.",
+    "url": "https://bitwarden.com/download/"
+  },
+  {
+    "id": "_k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6",
+    "name": "Greenshot",
+    "version": "1.2.10.6",
+    "usageInfo": "Herramienta de captura de pantalla ligera con múltiples opciones de edición y exportación, ideal para crear capturas de pantalla rápidas y anotarlas para documentación o soporte técnico.",
+    "url": "https://getgreenshot.org/"
+  },
+  {
+    "id": "_l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7",
+    "name": "Oracle VM VirtualBox",
+    "version": "7.0.18",
+    "usageInfo": "Software de virtualización de código abierto que permite ejecutar múltiples sistemas operativos (máquinas virtuales) simultáneamente en un solo ordenador físico. Ideal para pruebas, desarrollo y entornos aislados.",
+    "url": "https://www.virtualbox.org/wiki/Downloads"
+  },
+  {
+    "id": "_m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8",
+    "name": "Sysinternals Suite",
+    "version": "2024.05.02",
+    "usageInfo": "Colección de herramientas avanzadas de Microsoft para diagnosticar, solucionar problemas y administrar sistemas Windows. Incluye Process Explorer, Autoruns, Procmon, entre otros, esenciales para el análisis profundo del sistema.",
+    "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite"
+  },
+  {
+    "id": "_n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9",
+    "name": "AOMEI Partition Assistant Standard",
+    "version": "10.0.0",
+    "usageInfo": "Software gratuito de gestión de particiones de disco que permite crear, redimensionar, mover, fusionar, dividir y convertir particiones sin pérdida de datos. También incluye funciones de clonación de disco y sistema operativo.",
+    "url": "https://www.diskpart.com/download-pa-standard.html"
+  },
+  {
+    "id": "_o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0",
+    "name": "EaseUS Todo Backup Free",
+    "version": "17.0",
+    "usageInfo": "Software de copia de seguridad y recuperación para proteger datos, sistemas operativos y discos duros completos. Permite crear copias de seguridad completas, incrementales o diferenciales y restaurarlas fácilmente.",
+    "url": "https://www.easeus.com/backup-software/todo-backup-free.html"
+  },
+  {
+    "id": "_r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3",
+    "name": "BSPlayer",
+    "version": "2.77",
+    "usageInfo": "Reproductor multimedia que soporta una amplia gama de formatos de audio y video, incluyendo Matroska y OGM. Destaca por su bajo consumo de CPU y memoria, y soporte para subtítulos.",
+    "url": "https://www.bsplayer.com/"
+  },
+  {
+    "id": "_s9t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4",
+    "name": "HWMonitor",
+    "version": "1.57.0",
+    "usageInfo": "Herramienta de monitoreo de hardware que lee los principales sensores de salud de su sistema: temperaturas, voltajes, velocidad de ventiladores y utilización. Es de CPUID, la misma empresa que hace CPU-Z.",
+    "url": "https://www.cpuid.com/softwares/hwmonitor.html"
+  },
+  {
+    "id": "_t0u1v2w3x4y5z6a7b8c9d0e1f2g3h4i5",
+    "name": "CPU-Z",
+    "version": "2.15",
+    "usageInfo": "Utilidad gratuita que proporciona información detallada sobre los principales componentes de su sistema: procesador (CPU), memoria RAM, placa base y tarjeta gráfica (GPU).",
+    "url": "https://www.cpuid.com/softwares/cpu-z.html"
+  },
+  {
+    "id": "_u1v2w3x4y5z6a7b8c9d0e1f2g3h4i5j6",
+    "name": "IrfanView",
+    "version": "4.62",
+    "usageInfo": "Visor/convertidor de imágenes rápido, compacto e innovador para Windows. Soporta una gran cantidad de formatos gráficos y es muy ligero en recursos del sistema.",
+    "url": "https://www.irfanview.com/"
+  },
+  {
+    "id": "_v2w3x4y5z6a7b8c9d0e1f2g3h4i5j6k7",
+    "name": "ShareX",
+    "version": "14.1.0",
+    "usageInfo": "Herramienta de captura de pantalla, grabación de pantalla y compartición de archivos. Ofrece funciones avanzadas como subir capturas a la nube, grabar GIFs y un editor de imágenes integrado.",
+    "url": "https://getsharex.com/"
+  },
+  {
+    "id": "_w3x4y5z6a7b8c9d0e1f2g3h4i5j6k7l8",
+    "name": "OneCommander",
+    "version": "3.8.31",
+    "usageInfo": "Gestor de archivos de doble panel con pestañas, diseño moderno, vista de columnas y vista de archivos mejorada. Alternativa al Explorador de Windows con más funcionalidades.",
+    "url": "https://onecommander.com/"
+  },
+  {
+    "id": "_x4y5z6a7b8c9d0e1f2g3h4i5j6k7l8m9",
+    "name": "Patch My PC",
+    "version": "4.5.0.4",
+    "usageInfo": "Software que escanea su PC en busca de software desactualizado y lo actualiza automáticamente. Mantiene las aplicaciones populares actualizadas y parcheadas para mayor seguridad.",
+    "url": "https://patchmypc.com/home-updater"
+  },
+  {
+    "id": "_y5z6a7b8c9d0e1f2g3h4i5j6k7l8m9n0",
+    "name": "Explorer++",
+    "version": "1.4.0",
+    "usageInfo": "Un gestor de archivos ligero y rápido para Windows con pestañas. Ofrece una alternativa portable y personalizable al Explorador de Windows para una gestión de archivos más eficiente.",
+    "url": "https://explorerplusplus.com/"
+  },
+  {
+    "id": "_z6a7b8c9d0e1f2g3h4i5j6k7l8m9n0o1",
+    "name": "WizTree",
+    "version": "4.15",
+    "usageInfo": "Utilidad ultrarrápida para escanear y visualizar el uso del espacio en disco. Identifica los archivos y carpetas que más espacio ocupan en cuestión de segundos, facilitando la limpieza de disco.",
+    "url": "https://antibody-software.com/wiztree/download"
+  },
+  {
+    "id": "_a7b8c9d0e1f2g3h4i5j6k7l8m9n0o1p2",
+    "name": "ValiDrive",
+    "version": "1.1",
+    "usageInfo": "Herramienta gratuita de Steve Gibson (GRC) para verificar la autenticidad y el tamaño real de unidades USB y tarjetas de memoria, protegiéndote de unidades falsas o 'fake capacity'.",
+    "url": "https://www.grc.com/validrive.htm"
+  },
+  {
+    "id": "_b8c9d0e1f2g3h4i5j6k7l8m9n0o1p2q3",
+    "name": "VeraCrypt",
+    "version": "1.26.7",
+    "usageInfo": "Software de cifrado de disco gratuito y de código abierto. Permite cifrar particiones, discos completos o crear contenedores cifrados para proteger datos sensibles.",
+    "url": "https://www.veracrypt.fr/en/Downloads.html"
+  },
+  {
+    "id": "_c9d0e1f2g3h4i5j6k7l8m9n0o1p2q3r4",
+    "name": "Onboard Memory Manager",
+    "version": "1.0",
+    "usageInfo": "Herramienta específica para configurar y actualizar la memoria integrada de dispositivos Razer, optimizando el rendimiento y la personalización de periféricos con memoria interna.",
+    "url": "https://www.razer.com/synapse-3#downloads"
+  },
+  {
+    "id": "_d0e1f2g3h4i5j6k7l8m9n0o1p2q3r4s5",
+    "name": "OpenRGB",
+    "version": "0.93",
+    "usageInfo": "Software de control de iluminación RGB de código abierto y multiplataforma que permite sincronizar y controlar la iluminación de diversos componentes de hardware (placas base, RAM, GPU, periféricos) de diferentes fabricantes.",
+    "url": "https://openrgb.org/"
+  },
+  {
+    "id": "_e1f2g3h4i5j6k7l8m9n0o1p2q3r4s5t6",
+    "name": "OCCT",
+    "version": "13.0.4",
+    "usageInfo": "Herramienta de estabilidad y estrés de PC que permite probar la CPU, GPU, RAM y la fuente de alimentación para detectar errores y problemas de estabilidad del sistema.",
+    "url": "https://www.ocbase.com/"
+  },
+  {
+    "id": "_f2g3h4i5j6k7l8m9n0o1p2q3r4s5t6u7",
+    "name": "OpenSpeedTest",
+    "version": "6.0.0",
+    "usageInfo": "Herramienta de prueba de velocidad de Internet autoalojada y de código abierto. Permite ejecutar pruebas de velocidad de red precisas y privadas dentro de su propia red o servidor local.",
+    "url": "https://openspeedtest.com/self-hosted-speed-test.php"
+  },
+  {
+    "id": "_g3h4i5j6k7l8m9n0o1p2q3r4s5t6u7v8",
+    "name": "Geek Uninstaller",
+    "version": "1.5.2.165",
+    "usageInfo": "Programa de desinstalación rápido y eficiente que realiza un escaneo profundo para eliminar restos de programas que el desinstalador estándar de Windows deja atrás. También ofrece desinstalación forzada para software terco.",
+    "url": "https://geekuninstaller.com/download"
+  },
+  {
+    "id": "_h4i5j6k7l8m9n0o1p2q3r4s5t6u7v8w9",
+    "name": "WinScan2PDF",
+    "version": "6.66",
+    "usageInfo": "Pequeña utilidad portátil y gratuita que permite escanear documentos directamente a archivos PDF utilizando un escáner conectado. Ideal para digitalizar documentos rápidamente.",
+    "url": "http://www.softwareok.com/?seite=Freeware/WinScan2PDF"
+  },
+  {
+    "id": "_i5j6k7l8m9n0o1p2q3r4s5t6u7v8w9x0",
+    "name": "JDownloader 2",
+    "version": "Varies (actualiza automáticamente)",
+    "usageInfo": "Gestor de descargas de código abierto que simplifica la descarga de archivos de sitios web, incluyendo servicios de alojamiento, con funciones como cola de descargas, reanudación y auto-extracción de archivos comprimidos.",
+    "url": "https://jdownloader.org/jdownloader2"
+  },
+  {
+    "id": "_j6k7l8m9n0o1p2q3r4s5t6u7v8w9x0y1",
+    "name": "TextAloud",
+    "version": "4.0.100",
+    "usageInfo": "Software de texto a voz (TTS) que convierte texto de cualquier programa (documentos, páginas web, PDFs) en voz, permitiendo escucharlo en lugar de leerlo. Útil para revisión o multitarea.",
+    "url": "https://www.nextup.com/download.html"
+  },
+  {
+    "id": "_k7l8m9n0o1p2q3r4s5t6u7v8w9x0y1z2",
+    "name": "Deemix",
+    "version": "2021.9.30-r152",
+    "usageInfo": "Herramienta que permite descargar música de alta calidad (FLAC, MP3) desde Deezer, creando una biblioteca musical local. (Nota: La disponibilidad puede variar y puede requerir configuración adicional o de una cuenta Deezer).",
+    "url": "https://github.com/bambanah/deemix"
+  },
+  {
+    "id": "_l8m9n0o1p2q3r4s5t6u7v8w9x0y1z2a3",
+    "name": "Picasa",
+    "version": "3.9.141.259",
+    "usageInfo": "Software de gestión y edición de fotos de Google. Aunque descontinuado, sigue siendo útil para organizar, editar y compartir colecciones de imágenes localmente.",
+    "url": "https://picasa.en.softonic.com/"
+  },
+  {
+    "id": "_m9n0o1p2q3r4s5t6u7v8w9x0y1z2a3b4",
+    "name": "Internet Download Manager (IDM)",
+    "version": "6.42 Build 30",
+    "usageInfo": "Acelerador de descargas y gestor de archivos que puede aumentar las velocidades de descarga, reanudar descargas interrumpidas y programar descargas. Se integra con la mayoría de navegadores.",
+    "url": "https://www.internetdownloadmanager.com/download.html"
+  },
+  {
+    "id": "_o1p2q3r4s5t6u7v8w9x0y1z2a3b4c5d6",
+    "name": "K-Lite Codec Pack (Full)",
+    "version": "18.8.7",
+    "usageInfo": "Colección completa de códecs y filtros DirectShow que permite reproducir casi todos los formatos de audio y vídeo, incluso aquellos que no son compatibles de forma nativa con Windows.",
+    "url": "https://codecguide.com/download_kl.htm"
+  },
+  {
+    "id": "_p2q3r4s5t6u7v8w9x0y1z2a3b4c5d6e7",
+    "name": "Topaz Gigapixel AI",
+    "version": "7.2.2",
+    "usageInfo": "Software de mejora de imágenes basado en inteligencia artificial que permite escalar imágenes hasta un 600% sin perder calidad, ideal para fotografía y restauración.",
+    "url": "https://www.topazlabs.com/gigapixel-ai"
+  },
+  {
+    "id": "_q3r4s5t6u7v8w9x0y1z2a3b4c5d6e7f8",
+    "name": "Brave Browser",
+    "version": "1.66.118",
+    "usageInfo": "Navegador web centrado en la privacidad, con un bloqueador de anuncios y rastreadores integrado. Ofrece una navegación más rápida y segura al bloquear contenido no deseado.",
+    "url": "https://brave.com/download/"
+  }
+]

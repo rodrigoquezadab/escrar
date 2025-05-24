@@ -15,158 +15,164 @@
         Gestor de Programas 💻
       </h1>
 
-      <form
-        id="programForm"
-        class="mb-8 p-6 bg-gray-50 rounded-lg shadow-inner"
+      <nav
+        class="bg-gray-200 p-4 rounded-lg shadow-inner mb-6 flex flex-wrap justify-center items-center gap-3 md:gap-4"
       >
-        <input type="hidden" id="programId" />
-        <div class="mb-4">
-          <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
-            >Nombre del Programa:</label
-          >
-          <input
-            type="text"
-            id="name"
-            required
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-          />
-        </div>
-        <div class="mb-4">
-          <label
-            for="version"
-            class="block text-gray-700 text-sm font-bold mb-2"
-            >Versión:</label
-          >
-          <input
-            type="text"
-            id="version"
-            required
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-          />
-        </div>
-        <div class="mb-4">
-          <label
-            for="usageInfo"
-            class="block text-gray-700 text-sm font-bold mb-2"
-            >Información de Uso:</label
-          >
-          <textarea
-            id="usageInfo"
-            required
-            rows="3"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-          ></textarea>
-        </div>
-        <div class="mb-6">
-          <label for="url" class="block text-gray-700 text-sm font-bold mb-2"
-            >URL:</label
-          >
-          <input
-            type="text"
-            id="url"
-            required
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-          />
-        </div>
-        <div class="flex items-center justify-between">
-          <button
-            type="submit"
-            id="addButton"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
-          >
-            ➕ Añadir Programa
-          </button>
-          <button
-            type="submit"
-            id="updateButton"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out hidden"
-          >
-            🔄 Actualizar Programa
-          </button>
-          <button
-            type="button"
-            id="cancelButton"
-            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out hidden"
-          >
-            ❌ Cancelar
-          </button>
-        </div>
-      </form>
-
-      <div class="mb-6 p-6 bg-gray-50 rounded-lg shadow-inner">
-        <label
-          for="searchInput"
-          class="block text-gray-700 text-sm font-bold mb-2"
-          >Buscar Programas:</label
-        >
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Buscar por nombre, versión o información de uso..."
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
-        />
-      </div>
-
-      <div class="actions-toolbar flex justify-end space-x-2 mb-6">
         <button
-          type="button"
-          id="downloadDataButton"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out"
+          id="openAddProgramModalBtn"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out text-sm md:text-base flex-grow md:flex-grow-0"
         >
-          📥 Descargar Datos (JSON)
-        </button>
-
-        <label
-          for="uploadFileInput"
-          id="uploadFileLabel"
-          class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer transition duration-200 ease-in-out"
-        >
-          ⬆️ Cargar Datos (JSON)
-        </label>
-        <div id="uploadFileInputContainer" class="hidden-input-container">
-          <input
-            type="file"
-            id="uploadFileInput"
-            accept=".json"
-            class="hidden"
-          />
-        </div>
-        <button
-          type="button"
-          id="uploadDataButton"
-          class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out hidden"
-        >
-          Confirmar Carga
+          ➕ Agregar Programa
         </button>
 
         <button
-          type="button"
-          id="cancelUploadFlowButton"
-          class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out hidden"
+          id="uploadFileButton"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded cursor-pointer transition duration-200 ease-in-out text-center text-sm md:text-base flex-grow md:flex-grow-0"
         >
-          ❌ Cancelar Carga
+          ⬆️ Cargar Datos
+        </button>
+        <input type="file" id="fileUpload" accept=".json" class="hidden" />
+
+        <button
+          id="loadBackupButton"
+          class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out text-sm md:text-base flex-grow md:flex-grow-0"
+        >
+          🔄 Cargar Respaldo
         </button>
 
         <button
-          type="button"
           id="removeDuplicatesButton"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out hidden"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out text-sm md:text-base flex-grow md:flex-grow-0 hidden"
         >
           🗑️ Eliminar Duplicados
         </button>
-      </div>
+
+        <button
+          id="downloadDataButton"
+          class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out text-sm md:text-base flex-grow md:flex-grow-0"
+        >
+          ⬇️ Descargar Datos
+        </button>
+
+        <button
+          id="clearAllProgramsButton"
+          class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out text-sm md:text-base flex-grow md:flex-grow-0 hidden"
+        >
+          ❌ Vaciar Lista
+        </button>
+      </nav>
 
       <div
-        id="importOptionsModal"
-        class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50"
+        id="programModal"
+        class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center p-4 hidden z-50"
       >
-        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full">
-          <h2 class="text-2xl font-bold mb-4 text-gray-800">
-            Opciones de Importación
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative">
+          <button
+            id="closeProgramModalBtn"
+            class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-2xl font-bold"
+          >
+            &times;
+          </button>
+          <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">
+            Añadir/Editar Programa
           </h2>
-          <p class="mb-4 text-gray-700">
-            ¿Cómo deseas integrar los datos del archivo?
-          </p>
+          <form id="programForm" class="p-4 bg-gray-50 rounded-lg shadow-inner">
+            <input type="hidden" id="programId" />
+            <div class="mb-4">
+              <label
+                for="name"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Nombre del Programa:</label
+              >
+              <input
+                type="text"
+                id="name"
+                required
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="version"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Versión:</label
+              >
+              <input
+                type="text"
+                id="version"
+                required
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="usageInfo"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >Información de Uso:</label
+              >
+              <textarea
+                id="usageInfo"
+                rows="4"
+                required
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              ></textarea>
+            </div>
+            <div class="mb-6">
+              <label
+                for="url"
+                class="block text-gray-700 text-sm font-bold mb-2"
+                >URL (opcional):</label
+              >
+              <input
+                type="url"
+                id="url"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <button
+                id="addButton"
+                type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out w-full"
+              >
+                Añadir Programa
+              </button>
+              <button
+                id="updateButton"
+                type="button"
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out hidden w-full"
+              >
+                Actualizar Programa
+              </button>
+              <button
+                id="cancelButton"
+                type="button"
+                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out ml-2 hidden w-full"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="mainContent" class="p-6 bg-gray-50 rounded-lg shadow-inner">
+        <div class="mb-6">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Buscar programas..."
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <div
+          id="importOptions"
+          class="bg-gray-100 p-6 rounded-lg shadow-inner mb-6 hidden"
+        >
+          <h3 class="text-xl font-bold text-gray-700 mb-4 text-center">
+            Opciones de Importación:
+          </h3>
           <div class="space-y-4">
             <button
               id="importAddBtn"
@@ -190,13 +196,16 @@
               id="cancelImportBtn"
               class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 ease-in-out mt-4"
             >
-              Cancelar
+              Cancelar Importación
             </button>
           </div>
         </div>
-      </div>
 
-      <div id="programsList" class="space-y-4"></div>
+        <h2 class="text-2xl font-bold text-center text-gray-700 mb-4">
+          Lista de Programas (<span id="programCount">0</span>)
+        </h2>
+        <div id="programsList" class="space-y-4"></div>
+      </div>
     </div>
 
     <script src="script.js"></script>
