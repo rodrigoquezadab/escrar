@@ -212,3 +212,39 @@ hr {
     padding: 10px;
   }
 }
+
+/* style.css */
+
+/* ... (tus estilos existentes) ... */
+
+/* Normaliza la altura de los botones de la barra de herramientas */
+.actions-toolbar button,
+.actions-toolbar label {
+  /* Asegura que todos se comporten de forma similar como bloques en línea */
+  display: inline-flex; /* Usar inline-flex para centrar contenido si el texto varía en altura */
+  align-items: center; /* Centrar verticalmente el texto/contenido */
+  justify-content: center; /* Centrar horizontalmente si el ancho lo permite */
+  min-height: 42px; /* Establece una altura mínima fija si Tailwind py-2 px-4 no es suficiente */
+  /* El py-2 px-4 de Tailwind suele dar una altura de 40px (16px arriba + 16px abajo + ~8px de altura de texto por defecto).
+     Podrías ajustar este min-height si sientes que el padding de Tailwind no es exactamente el que quieres. */
+}
+
+/* Opcional: si usas la clase 'hidden' de Tailwind, asegúrate de que esté cargada correctamente. */
+.hidden-input-container {
+  display: none !important;
+}
+
+/* Opcional: si quieres mejorar la responsividad de los botones en móviles */
+@media (max-width: 767px) {
+  .program-item .edit-btn,
+  .program-item .delete-btn {
+    width: 100%;
+  }
+
+  /* Ajuste para los botones de la barra de herramientas en móviles */
+  .actions-toolbar {
+    flex-direction: column; /* Apila los botones en columnas en pantallas pequeñas */
+    align-items: stretch; /* Estira los botones para que ocupen todo el ancho */
+    gap: 8px; /* Pequeño espacio entre ellos */
+  }
+}
