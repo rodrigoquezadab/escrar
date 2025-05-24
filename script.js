@@ -11,18 +11,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const programsListDiv = document.getElementById("programsList");
   const searchInput = document.getElementById("searchInput");
 
-  // Referencia a los botones de descarga y subida
   const downloadDataButton = document.getElementById("downloadDataButton");
-  const uploadFileInput = document.getElementById("uploadFileInput");
-  const uploadDataButton = document.getElementById("uploadDataButton"); // El botón amarillo "Cargar Datos"
+  // No obtenemos uploadFileInput aquí con const/let al inicio, lo haremos dinámicamente
+  // const uploadFileInput = document.getElementById("uploadFileInput"); // ELIMINAR ESTA LÍNEA O HACERLA 'let'
+  const uploadDataButton = document.getElementById("uploadDataButton");
 
-  // Correctamente, obtener la etiqueta asociada al input de tipo file
   const uploadFileLabel = document.querySelector(
     'label[for="uploadFileInput"]'
-  ); // La etiqueta púrpura "⬆️ Cargar Datos (JSON)"
+  ); // La etiqueta púrpura
+  const uploadInputContainer = uploadFileLabel
+    ? uploadFileLabel.parentNode
+    : null; // Obtener el contenedor de la label y el input
+
+  // Guardamos el texto original del botón de carga (la etiqueta)
+  const originalUploadLabelText = uploadFileLabel
+    ? uploadFileLabel.textContent
+    : "⬆️ Cargar Datos (JSON)";
+  // Guardamos el texto original del botón de confirmar carga (el amarillo)
+  const originalUploadButtonText = "Confirmar Carga";
 
   let programs = JSON.parse(localStorage.getItem("programs")) || [];
   let editingProgramId = null;
+  let fileToUpload = null;
 
   const generateId = () =>
     "_" + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
@@ -198,32 +208,109 @@ document.addEventListener("DOMContentLoaded", () => {
     downloadDataButton.addEventListener("click", downloadProgramData);
   }
 
-  let fileToUpload = null;
+  // --- Funciones para manejar el input de archivo dinámicamente ---
 
-  // Cuando se selecciona un archivo en el input de tipo file
-  uploadFileInput.addEventListener("change", (e) => {
+  // Obtiene el input de archivo actual del DOM
+  const getCurrentFileInput = () => document.getElementById("uploadFileInput");
+
+  // Función para adjuntar/readjuntar los listeners al input de archivo
+  const attachFileInputListeners = () => {
+    const currentFileInput = getCurrentFileInput();
+    if (!currentFileInput) return; // Si no existe, no hacemos nada
+
+    // Asegurarse de no añadir múltiples listeners si ya existen
+    currentFileInput.removeEventListener("change", handleFileInputChange);
+    currentFileInput.addEventListener("change", handleFileInputChange);
+  };
+
+  // Handler para el evento change del input de archivo
+  const handleFileInputChange = (e) => {
+    console.log("--> EVENTO 'CHANGE' DEL INPUT DE ARCHIVO DETECTADO. (Paso 1)");
     const files = e.target.files;
     if (files.length > 0) {
       fileToUpload = files[0];
-      uploadDataButton.style.display = "inline-block"; // Hace visible el botón amarillo "Cargar Datos"
+      uploadDataButton.style.display = "inline-block";
+      uploadDataButton.textContent = `Cargar: ${fileToUpload.name}`;
       if (uploadFileLabel) {
         uploadFileLabel.textContent = `Archivo seleccionado: ${fileToUpload.name}`;
       }
+      console.log("Archivo seleccionado:", fileToUpload.name);
+      console.log(
+        "Botón 'Confirmar Carga' (amarillo) debería ser visible ahora y mostrar el nombre del archivo."
+      );
     } else {
-      // Si el usuario cancela la selección de archivo (cierra la ventana de selección sin elegir nada)
-      fileToUpload = null;
-      uploadDataButton.style.display = "none"; // Oculta el botón amarillo
-      if (uploadFileLabel) {
-        uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`; // Restablece el texto de la etiqueta púrpura
-      }
-      uploadFileInput.value = ""; // Crucial: limpiar el input file para permitir la selección futura del mismo archivo
+      console.log(
+        "Selección de archivo cancelada o ningún archivo seleccionado."
+      );
+      resetUploadControls(); // Llamamos a la función de reseteo aquí
     }
-  });
+  };
 
-  // Cuando se hace clic en el botón de confirmar carga (el amarillo)
+  // Función para resetear completamente el estado de los controles de carga
+  const resetUploadControls = () => {
+    fileToUpload = null;
+    uploadDataButton.style.display = "none";
+    uploadDataButton.textContent = originalUploadButtonText;
+    if (uploadFileLabel) {
+      uploadFileLabel.textContent = originalUploadLabelText;
+    }
+    // Recrear el input de archivo para asegurar un estado limpio
+    recreateFileInput();
+  };
+
+  // Función para recrear el input de archivo en el DOM
+  const recreateFileInput = () => {
+    if (!uploadInputContainer) {
+      console.error(
+        "No se encontró el contenedor del input de archivo para recrearlo."
+      );
+      return;
+    }
+
+    // Quitar el input actual si existe
+    const oldFileInput = getCurrentFileInput();
+    if (oldFileInput) {
+      oldFileInput.removeEventListener("change", handleFileInputChange); // Eliminar listener del viejo
+      oldFileInput.remove(); // Eliminar del DOM
+    }
+
+    // Crear un nuevo input
+    const newFileInput = document.createElement("input");
+    newFileInput.type = "file";
+    newFileInput.id = "uploadFileInput";
+    newFileInput.accept = ".json";
+    newFileInput.classList.add("hidden"); // Asegurar que tenga la clase hidden
+
+    // Insertar el nuevo input dentro del label (ya que en tu HTML está dentro del label)
+    // O si está justo después del label, insertarlo como hermano.
+    // Revisando tu HTML: el input está *dentro* de la label.
+    // Esto significa que necesitamos limpiar el contenido de la label y recrearlo.
+
+    // Opción más robusta si el input está dentro del label:
+    // Remover solo el input del label, y luego añadir el nuevo input.
+    if (uploadFileLabel) {
+      const existingInputInsideLabel =
+        uploadFileLabel.querySelector('input[type="file"]');
+      if (existingInputInsideLabel) {
+        existingInputInsideLabel.remove();
+      }
+      uploadFileLabel.appendChild(newFileInput);
+    } else {
+      // Fallback si la label no se encuentra correctamente, aunque debería existir
+      uploadInputContainer.appendChild(newFileInput);
+    }
+
+    // Volver a adjuntar los listeners al nuevo input
+    attachFileInputListeners();
+    console.log("Input de archivo recreado y listeners adjuntados.");
+  };
+
+  // CUANDO SE HACE CLIC EN EL BOTÓN DE CONFIRMAR CARGA (El botón amarillo)
   uploadDataButton.addEventListener("click", () => {
+    console.log("--> BOTÓN 'CARGAR DATOS' (AMARILLO) CLICKEADO. (Paso 2)");
     if (!fileToUpload) {
       alert("Por favor, selecciona un archivo JSON para cargar.");
+      console.log("No hay archivo en 'fileToUpload', deteniendo la carga.");
       return;
     }
 
@@ -232,14 +319,18 @@ document.addEventListener("DOMContentLoaded", () => {
         "¿Estás seguro de que quieres cargar estos datos? Esto sobrescribirá tus programas actuales."
       )
     ) {
+      console.log("Carga cancelada por el usuario.");
+      resetUploadControls(); // Resetear si se cancela la confirmación
       return;
     }
 
     const reader = new FileReader();
 
     reader.onload = (event) => {
+      console.log("--> ARCHIVO LEÍDO POR FILEREADER. (Paso 3)");
       try {
         const uploadedData = JSON.parse(event.target.result);
+        console.log("Datos parseados del JSON:", uploadedData);
 
         if (
           Array.isArray(uploadedData) &&
@@ -249,58 +340,44 @@ document.addEventListener("DOMContentLoaded", () => {
           savePrograms();
           renderPrograms();
           alert("Datos cargados exitosamente.");
-
-          // Restablecer controles de carga después de una carga exitosa
-          fileToUpload = null;
-          uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
-          if (uploadFileLabel) {
-            uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`; // Restablecer el texto de la etiqueta púrpura
-          }
-          uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file para permitir seleccionar el mismo archivo de nuevo
+          console.log("Carga de datos exitosa. Restableciendo UI.");
+          resetUploadControls(); // Resetear después de éxito
         } else {
-          // El JSON es válido sintácticamente, pero tiene una estructura de datos incorrecta
           alert(
             "El archivo JSON no parece contener datos de programas válidos. Asegúrate de que sea un respaldo generado por esta aplicación."
           );
-          // Asegurar un restablecimiento consistente
-          fileToUpload = null;
-          uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
-          if (uploadFileLabel) {
-            uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`;
-          }
-          uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file
+          console.log(
+            "Carga fallida: El JSON no tiene la estructura de datos esperada."
+          );
+          resetUploadControls(); // Resetear después de fallo de validación
         }
       } catch (error) {
-        // Error en el parseo del JSON (el archivo no es un JSON válido)
         alert(
           "Error al procesar el archivo JSON. Asegúrate de que sea un archivo JSON válido."
         );
-        console.error("Error al leer o parsear el archivo JSON:", error);
-        // Asegurar un restablecimiento consistente
-        fileToUpload = null;
-        uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
-        if (uploadFileLabel) {
-          uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`;
-        }
-        uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file
+        console.error("--> ERROR AL LEER O PARSEAR EL ARCHIVO JSON:", error);
+        resetUploadControls(); // Resetear después de fallo de parseo
       }
     };
 
     reader.onerror = (error) => {
       alert("Error al leer el archivo.");
-      console.error("Error del FileReader:", error);
-      // Asegurar un restablecimiento consistente
-      fileToUpload = null;
-      uploadDataButton.style.display = "none"; // Ocultar el botón amarillo
-      if (uploadFileLabel) {
-        uploadFileLabel.textContent = `⬆️ Cargar Datos (JSON)`;
-      }
-      uploadFileInput.value = ""; // CRUCIAL: Limpiar el input file
+      console.error(
+        "--> ERROR DEL FILEREADER (No se pudo leer el archivo):",
+        error
+      );
+      resetUploadControls(); // Resetear después de fallo del FileReader
     };
 
     reader.readAsText(fileToUpload);
+    console.log("FileReader iniciado para leer el archivo.");
   });
 
-  // Renderizar programas al cargar la página inicialmente
+  // ************ Llama a recrear el input al inicio para configurarlo ************
+  // Esto asegura que, incluso en la primera carga, se use un input gestionado por nuestro JS
+  // y que los listeners estén correctamente adjuntos desde el principio.
+  recreateFileInput();
+  // *******************************************************************************
+
   renderPrograms();
 });
